@@ -1,4 +1,4 @@
-## Lab 2 - Normal Distribution Generation
+# Lab 2 - Normal Distribution Generation
 
 Generation of Gaussian signals from uniform distributions using two methods.
 
