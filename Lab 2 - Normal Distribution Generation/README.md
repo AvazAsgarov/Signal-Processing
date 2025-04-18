@@ -23,10 +23,10 @@ X = \sqrt{-2\ln R_1} \cos(2\pi R_2)
 
 ## 📊 Results
 ### Histogram Evolution (12 Iterations)
-![Summation Process](results/summation_histograms.png)
+![Summation Process](summation_histograms.png)
 
 ### Final Distributions
-| Method | Time Domain | Histogram |
-|--------|-------------|-----------|
-| Summation | ![Summation Samples](results/method1_results.png) | ![Summation Hist](results/method1_results.png) |
-| Box-Muller | ![BM Samples](results/method2_results.png) | ![BM Hist](results/method2_results.png) |
+#### Summation
+![Summation Samples](method1_results.png)
+#### Box-Muller 
+![BM Samples](method2_results.png)
