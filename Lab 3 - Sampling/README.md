@@ -31,7 +31,3 @@ where n is the integer closest to f<sub>signal</sub>/f<sub>s</sub>
 | Continuous-like | 1 MHz | Reference | Smooth curve |
 | Proper | 2.5 kHz | Valid | Samples capture true waveform |
 | Improper | 1.5 kHz | Aliased | Samples suggest wrong frequency |
-
-**Calculated Aliasing**:
-- Actual frequency: 1 kHz
-- Apparent frequency: 0.5 kHz
