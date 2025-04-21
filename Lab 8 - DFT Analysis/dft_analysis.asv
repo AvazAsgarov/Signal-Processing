@@ -1,0 +1,109 @@
+% DFT_ANALYSIS_WITH_MANUAL_IMPLEMENTATION
+% Lab 8: Comprehensive DFT Analysis
+%
+% Combines:
+% 1. Manual DFT implementation (educational purpose)
+% 2. Built-in FFT analysis (practical application)
+% 3. Time-frequency domain visualization
+% 4. Sampling rate verification
+%
+% Author: Your Name
+% Date: YYYY-MM-DD
+
+clc; clear; close all;
+
+%% ======================== PARAMETERS ========================
+f1 = 50;                    % First frequency component (Hz)
+f2 = 150;                   % Second frequency component (Hz)
+f_max = max([f1, f2]);      % Highest frequency component
+f_sampling = 5 * f_max;     % Sampling frequency (Nyquist compliant)
+t_total = 1;                % Observation duration (s)
+N_fft = 1024;               % Number of FFT points
+
+%% ===================== SIGNAL GENERATION =====================
+t = 0:1/f_sampling:t_total; % Time vector
+x_clean = sin(2*pi*f1*t) + 0.5*sin(2*pi*f2*t);  % Clean signal
+noise = 0.2*randn(size(t)); % Gaussian noise
+x_noisy = x_clean + noise;  % Noisy signal
+
+%% ===================== MANUAL DFT IMPLEMENTATION =====================
+% Function definition (nested for code organization)
+function X = manual_dft(x)
+    N = length(x);
+    X = zeros(1,N);
+    for k = 0:N-1
+        for n = 0:N-1
+            X(k+1) = X(k+1) + x(n+1)*exp(-1i*2*pi*k*n/N);
+        end
+    end
+end
+
+% Calculate manual DFTs (using first 64 points for speed)
+N_manual = 64;
+X_manual_clean = manual_dft(x_clean(1:N_manual));
+X_manual_noisy = manual_dft(x_noisy(1:N_manual));
+f_manual = f_sampling*(0:N_manual/2-1)/N_manual;
+
+%% ===================== BUILT-IN FFT ANALYSIS =====================
+X_fft_clean = fft(x_clean, N_fft);
+X_fft_noisy = fft(x_noisy, N_fft);
+f_fft = f_sampling*(0:N_fft/2-1)/N_fft;
+
+%% ===================== VISUALIZATION =====================
+% Time Domain Plot
+figure('Name', 'Time Domain Signals', 'Position', [100 100 1200 800]);
+
+subplot(2,2,1);
+plot(t, x_clean, 'b', 'LineWidth', 1.5);
+title('Clean Signal: Time Domain');
+xlabel('Time (s)'); ylabel('Amplitude');
+grid on; xlim([0 0.1]);
+
+subplot(2,2,2);
+plot(t, x_noisy, 'r', 'LineWidth', 1.5);
+title('Noisy Signal: Time Domain (SNR ≈ 10 dB)');
+xlabel('Time (s)'); ylabel('Amplitude');
+grid on; xlim([0 0.1]);
+
+% Frequency Domain (Manual DFT)
+subplot(2,2,3);
+stem(f_manual, abs(X_manual_clean(1:N_manual/2)), 'b', 'filled');
+title('Manual DFT: Clean Signal');
+xlabel('Frequency (Hz)'); ylabel('Magnitude');
+grid on; xlim([0 2*f_max]);
+
+subplot(2,2,4);
+stem(f_manual, abs(X_manual_noisy(1:N_manual/2)), 'r', 'filled');
+title('Manual DFT: Noisy Signal');
+xlabel('Frequency (Hz)'); ylabel('Magnitude');
+grid on; xlim([0 2*f_max]);
+saveas(gcf, 'results/time_and_manual_freq_domain.png');
+
+% Frequency Domain (FFT)
+figure('Name', 'FFT Analysis', 'Position', [200 200 1200 600]);
+
+subplot(1,2,1);
+stem(f_fft, abs(X_fft_clean(1:N_fft/2)), 'b', 'LineWidth', 1.5);
+title('FFT: Clean Signal Spectrum');
+xlabel('Frequency (Hz)'); ylabel('Magnitude');
+grid on; xlim([0 2*f_max]);
+
+subplot(1,2,2);
+stem(f_fft, abs(X_fft_noisy(1:N_fft/2)), 'r', 'LineWidth', 1.5);
+title('FFT: Noisy Signal Spectrum');
+xlabel('Frequency (Hz)'); ylabel('Magnitude');
+grid on; xlim([0 2*f_max]);
+saveas(gcf, 'C:\Users\avaza\Desktop\Signals & Systemsfft_analysis.png');
+
+%% ===================== SAMPLING VERIFICATION =====================
+disp('=== SAMPLING VERIFICATION ===');
+disp(['Nyquist frequency (2f_max): ', num2str(2*f_max), ' Hz']);
+disp(['Actual sampling rate: ', num2str(f_sampling), ' Hz']);
+disp(['Sampling compliance: ', num2str(f_sampling > 2*f_max)]);
+
+%% ===================== DFT/FFT COMPARISON =====================
+% Compare results at bin corresponding to 50 Hz
+[~, idx] = min(abs(f_manual - f1));
+disp('=== DFT/FFT COMPARISON ===');
+disp(['Manual DFT @50Hz: ', num2str(abs(X_manual_clean(idx)))]);
+disp(['FFT @50Hz: ', num2str(abs(X_fft_clean(round(f1/f_sampling*N_fft)+1)))]);
