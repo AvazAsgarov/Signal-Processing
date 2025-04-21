@@ -23,7 +23,7 @@ f_{alias} = |f_{signal} - n \times f_s|
 where n is the integer closest to f<sub>signal</sub>/f<sub>s</sub>
 
 ## 📊 Results
-![Sampling Comparison](results/sampling_comparison.png)
+![Sampling Comparison](sampling_comparison.png)
 
 **Key Observations**:
 | Sampling Type | Sampling Rate | Status | Visual Characteristics |
