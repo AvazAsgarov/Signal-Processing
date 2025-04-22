@@ -1,4 +1,4 @@
-# Lab 8 - DFT Analysis 
+# Lab 6 - DFT Analysis 
 
 This lab demonstrates Discrete Fourier Transform (DFT) analysis using both built-in FFT and manual calculation methods.
 
