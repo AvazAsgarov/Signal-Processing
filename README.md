@@ -16,4 +16,4 @@ This repository contains MATLAB implementations of fundamental DSP techniques:
 | 3 | Sampling Theorem | Nyquist verification, aliasing demonstration |
 | 4 | Convolution | Time-domain signal processing |
 | 5 | Signal Decomposition | Impulse/step/odd-even decomposition |
-| 6 | DFT Analysis | FFT vs manual DFT implementation |
+| 8 | DFT Analysis | FFT vs manual DFT implementation |
